@@ -41,6 +41,7 @@ pipeline {
             }
         }
         stage('Archive Artifacts') {
+            steps { 
                 echo 'Zipping Artifacts Starts!'
                 bat 'powershell Compress-Archive -Path .\\artifacts -DestinationPath .\\artifacts.zip' 
                 echo 'Zipping Artifacts Completed.'
