@@ -3,6 +3,13 @@ pipeline {
         label 'windows-agent'
     }    
     stages {
+        stage('Clean') {
+            steps {
+                echo 'Cleaning up the workspace started.'
+                deleteDir()
+                echo 'Workspace clean succesfully.'
+            }
+        }
         stage('Build') {
             steps('Build Class library') {	
                 echo 'Nuget Restore Starts!'
