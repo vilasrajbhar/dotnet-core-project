@@ -38,10 +38,6 @@ pipeline {
                 echo 'Dotnet Publish Starts!'
               	bat 'dotnet publish -c Release --output artifacts AspNetCoreWebApplication.sln' 
                 echo 'Dotnet Publish Completed.'
-                echo 'Zipping Artifacts Starts!'
-                bat 'powershell Compress-Archive -Path .\\artifacts -DestinationPath .\\artifacts.zip' 
-                echo 'Zipping Artifacts Completed.'
-
             }
         }
         stage('Archive Artifacts') {
