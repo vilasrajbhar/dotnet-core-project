@@ -10,6 +10,12 @@ pipeline {
                 echo 'Workspace clean succesfully.'
             }
         }
+        stage('Checkout Again') {
+            steps {
+                // Checkout the source code again after cleaning the workspace
+                git 'https://github.com/vilasrajbhar/dotnet-core-project.git'
+            }
+        }
         stage('Build') {
             steps('Build Class library') {	
                 echo 'Nuget Restore Starts!'
