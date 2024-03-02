@@ -31,7 +31,7 @@ pipeline {
         stage('Publish') {
             steps {  
                 echo 'Dotnet Publish Starts!'
-              	bat 'dotnet publish -c Release -r win-x64 --output ./artifacts AspNetCoreWebApplication.sln' 
+              	bat 'dotnet publish -c Release -r win-x64 --output artifacts AspNetCoreWebApplication.sln' 
                 echo 'Dotnet Publish Completed.'
             }
         }
