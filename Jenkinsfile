@@ -47,5 +47,17 @@ pipeline {
                 echo 'Zipping Artifacts Completed.'
             }
         }
+        stage('Approval') {
+            steps {
+                input "Deploy to wwwroot folder?"
+            }
+        }
+        stage('Deploy') {
+            steps {  
+                echo 'Deploying to wwwroot folder Starts!'
+                bat 'powershell Expand-Archive -Path .\\artifacts.zip -DestinationPath C:\\inetpub\\wwwroot' 
+                echo 'Deploying to wwwroot folder Completed.'
+            }
+        }
     }
 }
