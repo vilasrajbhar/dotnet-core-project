@@ -36,19 +36,19 @@ pipeline {
         stage('Publish') {
             steps {  
                 echo 'Dotnet Publish Starts!'
-                bat 'dotnet publish -c Release AspNetCoreWebApplication.sln' // Remove --output option
+              	bat 'dotnet publish -c Release --output artifacts AspNetCoreWebApplication.sln' 
                 echo 'Dotnet Publish Completed.'
             }
         }
-		//stage('Archive Artifacts') {
-        //    steps { 
-        //        echo 'Zipping Artifacts Starts!'
-        //        bat 'powershell Compress-Archive -Path .\\artifacts -DestinationPath .\\artifacts.zip' 
-        //        echo 'Zipping Artifacts Completed.'
-        //    }
-        //}
-		
-		// stage('Approval') {
+        stage('Archive Artifacts') {
+            steps { 
+                echo 'Zipping Artifacts Starts!'
+                bat 'powershell Compress-Archive -Path .\\artifacts -DestinationPath .\\artifacts.zip' 
+                echo 'Zipping Artifacts Completed.'
+            }
+        }
+	
+	// stage('Approval') {
         //     steps {
         //         input "Deploy to wwwroot folder?"
         //     }
@@ -57,7 +57,9 @@ pipeline {
         stage('Deploy') {
             steps {  
                 echo 'Deploying to wwwroot folder Starts!'
-                bat 'powershell Expand-Archive -Path .\\bin\\Release\\netcoreapp3.1\\publish\\* -DestinationPath C:\\inetpub\\wwwroot\\ContosoWebApp' 
+                bat 'powershell Expand-Archive -Path .\\artifacts.zip -DestinationPath C:\\inetpub\\wwwroot\\artifacts' 
+		//bat 'powershell Rename-Item -Path C:\\inetpub\\wwwroot\\artifacts -NewName "C:\\inetpub\\wwwroot\\ContosoWebApp"'
+		bat 'powershell Rename-Item -Path "C:\\inetpub\\wwwroot\\artifacts" -NewName "ContosoWebApp"'
                 echo 'Deploying to wwwroot folder Completed.'
             }
         }
