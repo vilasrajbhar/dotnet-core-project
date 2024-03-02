@@ -55,8 +55,20 @@ pipeline {
         stage('Deploy') {
             steps {  
                 echo 'Deploying to wwwroot folder Starts!'
-                bat 'powershell Expand-Archive -Path .\\artifacts.zip -DestinationPath C:\\inetpub\\wwwroot' 
+                bat 'powershell Expand-Archive -Path .\\artifacts.zip -DestinationPath C:\\inetpub\\wwwroot\\ContosoWebApp' 
                 echo 'Deploying to wwwroot folder Completed.'
+            }
+        }
+        stage('Convert to Application') {
+            steps {
+                echo 'Converting deployed folder to application Starts!'
+                echo 'Setting Environment Variable!'
+                bat 'powershell -Command "Md $Env:systemdrive\\inetpub\\ContosoWebApp"'
+                echo 'Creating New Virtual Directory!'
+                bat 'powershell -Command "New-WebVirtualDirectory -Site \'Default Web Site\' -Name \'ContosoWebApp\' -PhysicalPath \'$Env:systemdrive\\inetpub\\ContosoWebApp\'"'
+                echo 'Convert To IIS WebApplication!'
+                bat 'powershell -Command "ConvertTo-WebApplication -PSPath \'IIS:\\Sites\\Default Web Site\\ContosoWebApp\'"'
+                echo 'Converting deployed folder to application Completed.'
             }
         }
     }
