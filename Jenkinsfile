@@ -7,7 +7,7 @@ pipeline {
             steps {
                 echo 'Cleaning up the workspace started.'
                 deleteDir()
-                echo 'Workspace clean succesfully.'
+                echo 'Workspace clean successfully.'
             }
         }
         stage('Checkout Again') {
@@ -17,7 +17,7 @@ pipeline {
             }
         }
         stage('Build') {
-            steps('Build Class library') {	
+            steps {  
                 echo 'Nuget Restore Starts!'
                 bat 'C:/NuGet/nuget.exe restore AspNetCoreWebApplication.sln -Verbosity Detailed -NonInteractive'
                 echo 'Nuget Restore Completed.'
@@ -26,46 +26,46 @@ pipeline {
                 echo 'Solution Build Completed.'
             }
         }
-         stage('UnitTests') {
+        stage('UnitTests') {
             steps {  
                 echo 'Dotnet Test Starts!'
-              	bat 'dotnet test AspNetCoreWebApplication.sln --logger "trx;LogFileName=${WORKSPACE}/unit_tests.xml"' 
+                bat 'dotnet test AspNetCoreWebApplication.sln --logger "trx;LogFileName=${WORKSPACE}/unit_tests.xml"' 
                 echo 'Dotnet Test Completed.'
             }
         }
         stage('Publish') {
             steps {  
                 echo 'Dotnet Publish Starts!'
-              	bat 'dotnet publish -c Release --output artifacts AspNetCoreWebApplication.sln' 
+                bat 'dotnet publish -c Release AspNetCoreWebApplication.sln' // Remove --output option
                 echo 'Dotnet Publish Completed.'
             }
         }
-        stage('Archive Artifacts') {
-            steps { 
-                echo 'Zipping Artifacts Starts!'
-                bat 'powershell Compress-Archive -Path .\\artifacts -DestinationPath .\\artifacts.zip' 
-                echo 'Zipping Artifacts Completed.'
-            }
-        }
-        // stage('Approval') {
+		//stage('Archive Artifacts') {
+        //    steps { 
+        //        echo 'Zipping Artifacts Starts!'
+        //        bat 'powershell Compress-Archive -Path .\\artifacts -DestinationPath .\\artifacts.zip' 
+        //        echo 'Zipping Artifacts Completed.'
+        //    }
+        //}
+		
+		// stage('Approval') {
         //     steps {
         //         input "Deploy to wwwroot folder?"
         //     }
         // }
+		
         stage('Deploy') {
             steps {  
                 echo 'Deploying to wwwroot folder Starts!'
-                bat 'powershell Expand-Archive -Path .\\artifacts.zip -DestinationPath C:\\inetpub\\wwwroot\\ContosoWebApp' 
+                bat 'powershell Expand-Archive -Path .\\bin\\Release\\netcoreapp3.1\\publish\\* -DestinationPath C:\\inetpub\\wwwroot\\ContosoWebApp' 
                 echo 'Deploying to wwwroot folder Completed.'
             }
         }
         stage('Convert to Application') {
             steps {
                 echo 'Converting deployed folder to application Starts!'
-                echo 'Setting Environment Variable!'
-                bat 'powershell -Command "Md $Env:systemdrive\\inetpub\\ContosoWebApp"'
                 echo 'Creating New Virtual Directory!'
-                bat 'powershell -Command "New-WebVirtualDirectory -Site \'Default Web Site\' -Name \'ContosoWebApp\' -PhysicalPath \'$Env:systemdrive\\inetpub\\ContosoWebApp\'"'
+                bat 'powershell -Command "New-WebVirtualDirectory -Site \'Default Web Site\' -Name \'ContosoWebApp\' -PhysicalPath \'C:\\inetpub\\wwwroot\\ContosoWebApp\'"'
                 echo 'Convert To IIS WebApplication!'
                 bat 'powershell -Command "ConvertTo-WebApplication -PSPath \'IIS:\\Sites\\Default Web Site\\ContosoWebApp\'"'
                 echo 'Converting deployed folder to application Completed.'
