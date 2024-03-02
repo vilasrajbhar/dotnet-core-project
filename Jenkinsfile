@@ -25,7 +25,6 @@ pipeline {
                 echo 'Dotnet Test Starts!'
               	bat 'dotnet test AspNetCoreWebApplication.sln --logger "trx;LogFileName=${WORKSPACE}/unit_tests.xml"' 
                 echo 'Dotnet Test Completed.'
-                dotnet publish -c Release -o output
             }
         }
         stage('Publish') {
