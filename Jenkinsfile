@@ -9,7 +9,7 @@ pipeline {
                 bat 'C:/NuGet/nuget.exe restore AspNetCoreWebApplication.sln -Verbosity Detailed -NonInteractive'
                 echo 'Nuget Restore Completed.'
                 echo 'Solution Build Starts!'
-                bat 'msbuild AspNetCoreWebApplication.sln /t:Rebuild /p:Configuration=Release'  
+                bat 'msbuild AspNetCoreWebApplication.sln -t:restore,build -p:RestorePackagesConfig=true /p:configuration="Release"'  
                 echo 'Solution Build Completed.'
             }
         }
