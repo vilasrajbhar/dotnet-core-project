@@ -5,8 +5,8 @@ pipeline {
     stages {
         stage('Build') {
             steps('Build Class library') {	
-               bat 'dotnet restore AspNetCoreWebApplication.sln'
-               bat 'dotnet build AspNetCoreWebApplication.sln /t:Build /p:Configuration=Release'                             
+               bat 'C:\NuGet\nuget.exe restore AspNetCoreWebApplication.sln -Verbosity Detailed -NonInteractive'
+               bat 'msbuild build AspNetCoreWebApplication.sln /t:Rebuild /p:Configuration=Release'                 
             }
         }
          stage('UnitTests') {
