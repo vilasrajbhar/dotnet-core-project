@@ -1,0 +1,8 @@
+[windows]
+win_host ansible_host=11.2.0.5
+
+[windows:vars]
+ansible_user=jenkin-user
+ansible_password=Jen@kiN321
+ansible_connection=ssh
+ansible_shell_type=cmd
