@@ -61,8 +61,9 @@ pipeline {
                 bat 'powershell if (Test-Path "C:\\inetpub\\wwwroot\\artifacts") { Remove-Item -Path "C:\\inetpub\\wwwroot\\artifacts" -Recurse -Force }'
 		bat 'powershell Expand-Archive -Path .\\ContosoWebApp.zip -DestinationPath C:\\inetpub\\wwwroot' 
 		bat 'powershell dir C:\\inetpub\\wwwroot'
+		bat 'powershell Rename-Item -Path "C:\\inetpub\\wwwroot\\artifacts" -NewName "ContosoWebApp"'
+		bat 'powershell dir C:\\inetpub\\wwwroot'
 		bat 'powershell dir C:\\inetpub\\wwwroot\\ContosoWebApp'
-		//bat 'powershell Rename-Item -Path "C:\\inetpub\\wwwroot\\artifacts" -NewName "ContosoWebApp"'
                 echo 'Deploying to wwwroot folder Completed.'
             }
         }
