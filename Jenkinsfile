@@ -70,8 +70,8 @@ pipeline {
         stage('Convert to Application') {
             steps {
                 echo 'Converting deployed folder to application Starts!'
-                echo 'Creating New Virtual Directory!'
-                bat 'powershell -Command "New-WebVirtualDirectory -Site \'Default Web Site\' -Name \'ContosoWebApp\' -PhysicalPath \'C:\\inetpub\\wwwroot\\ContosoWebApp\'"'
+                //echo 'Creating New Virtual Directory!'
+                //bat 'powershell -Command "New-WebVirtualDirectory -Site \'Default Web Site\' -Name \'ContosoWebApp\' -PhysicalPath \'C:\\inetpub\\wwwroot\\ContosoWebApp\'"'
                 echo 'Convert To IIS WebApplication!'
                 bat 'powershell -Command "ConvertTo-WebApplication -PSPath \'IIS:\\Sites\\Default Web Site\\ContosoWebApp\'"'
                 echo 'Converting deployed folder to application Completed.'
