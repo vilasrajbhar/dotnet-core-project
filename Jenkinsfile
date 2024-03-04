@@ -43,7 +43,7 @@ pipeline {
         stage('Archive Artifacts') {
             steps { 
                 echo 'Zipping Artifacts Starts!'
-                bat 'powershell Compress-Archive -Path .\\artifacts -DestinationPath .\\artifacts.zip' 
+                bat 'powershell Compress-Archive -Path .\\artifacts -DestinationPath .\\ContosoWebApp.zip' 
                 echo 'Zipping Artifacts Completed.'
             }
         }
@@ -59,8 +59,10 @@ pipeline {
                 echo 'Deploying to wwwroot folder Starts!'
 		bat 'powershell if (Test-Path "C:\\inetpub\\wwwroot\\ContosoWebApp") { Remove-Item -Path "C:\\inetpub\\wwwroot\\ContosoWebApp" -Recurse -Force }'
                 bat 'powershell if (Test-Path "C:\\inetpub\\wwwroot\\artifacts") { Remove-Item -Path "C:\\inetpub\\wwwroot\\artifacts" -Recurse -Force }'
-		bat 'powershell Expand-Archive -Path .\\artifacts.zip -DestinationPath C:\\inetpub\\wwwroot\\artifacts' 
-		bat 'powershell Rename-Item -Path "C:\\inetpub\\wwwroot\\artifacts" -NewName "ContosoWebApp"'
+		bat 'powershell Expand-Archive -Path .\\ContosoWebApp.zip -DestinationPath C:\\inetpub\\wwwroot' 
+		bat 'powershell dir C:\\inetpub\\wwwroot'
+		bat 'powershell dir C:\\inetpub\\wwwroot\\ContosoWebApp'
+		//bat 'powershell Rename-Item -Path "C:\\inetpub\\wwwroot\\artifacts" -NewName "ContosoWebApp"'
                 echo 'Deploying to wwwroot folder Completed.'
             }
         }
