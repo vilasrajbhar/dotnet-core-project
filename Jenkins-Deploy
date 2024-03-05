@@ -14,7 +14,7 @@ pipeline {
     stage('Deploy with Ansible') {
         steps {
                echo 'Deploying with Ansible'
-               sh 'ansible-playbook -i inventory playbook.yml --user ansible-user'
+               sh 'ansible-playbook -i inventory playbook.yml'
            }
         }
     }
