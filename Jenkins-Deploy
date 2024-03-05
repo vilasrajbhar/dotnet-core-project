@@ -4,7 +4,7 @@ pipeline {
         stage('Download Artifacts') {
             steps {
                 echo 'Downloading Artifacts from Build Pipeline'
-                build job: 'dotnet-pipeline', propagate: false, wait: true
+                build job: 'dotnet-build-pipeline', propagate: false, wait: true
                 sh 'll'
                 echo 'Artifacts Downloaded'
             }
@@ -12,7 +12,7 @@ pipeline {
         stage('Deploy with Ansible') {
             steps {
                 echo 'Deploying with Ansible'
-                sh 'ansible-playbook playbook.yml'
+                sh 'ansible-playbook -i inventory playbook.yml'
             }
         }
     }
