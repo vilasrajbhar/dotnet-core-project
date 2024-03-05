@@ -4,6 +4,10 @@
     - name: Remove existing ContosoWebApp folder
       win_shell: Remove-Item -Path "C:\\inetpub\\wwwroot\\ContosoWebApp" -Recurse -Force
       ignore_errors: yes
+    
+    - name: Remove application ContosoWebApp from Default Web Site
+      win_shell: Remove-WebApplication -Name "ContosoWebApp" -Site "Default Web Site"
+      ignore_errors: yes
 
     - name: Remove existing artifacts folder
       win_shell: Remove-Item -Path "C:\\inetpub\\wwwroot\\artifacts" -Recurse -Force
