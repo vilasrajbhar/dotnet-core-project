@@ -5,17 +5,17 @@ pipeline {
             steps {
                 script {
                     echo 'Downloading Artifacts from Build Pipeline'
-                    //copyArtifacts(projectName: 'dotnet-build-pipeline', selector: specific('**/*.zip'))
                     copyArtifacts(projectName: 'dotnet-build-pipeline', filter:'ContosoWebApp.zip', optional: true);
                     echo 'Artifacts Downloaded'
+                    sh 'ls -la'
                 }
             }
         }
-       //stage('Deploy with Ansible') {
-       //    steps {
-       //        echo 'Deploying with Ansible'
-       //       sh 'ansible-playbook -i inventory playbook.yml'
-       //    }
-       // }
+    stage('Deploy with Ansible') {
+        steps {
+               echo 'Deploying with Ansible'
+              sh 'ansible-playbook -i inventory playbook.yml'
+           }
+        }
     }
 }
