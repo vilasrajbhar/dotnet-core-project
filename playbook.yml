@@ -3,15 +3,25 @@
   tasks:
     - name: Remove existing ContosoWebApp folder and application
       win_shell: |
+        Write-Host "Removing ContosoWebApp & artifacts folders"
         if (Test-Path "C:\inetpub\wwwroot\ContosoWebApp") { Remove-Item -Path "C:\inetpub\wwwroot\ContosoWebApp" -Recurse -Force }
         if (Test-Path "C:\inetpub\wwwroot\ContosoWebApp") { Remove-Item -Path "C:\inetpub\wwwroot\artifacts" -Recurse -Force }
+        Write-Host "Removed ContosoWebApp & artifacts folders"
+        Write-Host "Removing WebApplication"
         Remove-WebApplication -Name "ContosoWebApp" -Site "Default Web Site"
+        Write-Host "Removed WebApplication successfully."
         ls "C:\inetpub\wwwroot"
       ignore_errors: yes
 
+    - name: Copy ContosoWebApp.zip from Jenkins to Windows agent
+      win_copy:
+        src: /var/lib/jenkins/workspace/dotnet-ansible-deploy/ContosoWebApp.zip
+        dest: C:\temp\ContosoWebApp.zip
+        
     - name: Extract ContosoWebApp.zip
       win_shell: |
-        Expand-Archive -Path $env:WORKSPACE\ContosoWebApp.zip -DestinationPath C:\\inetpub\\wwwroot
+        ls "C:\temp"
+        Expand-Archive -Path C:\temp\ContosoWebApp.zip -DestinationPath C:\inetpub\wwwroot
         Rename-Item -Path "C:\inetpub\wwwroot\artifacts" -NewName "ContosoWebApp"
         ls "C:\inetpub\wwwroot"
         ls "C:\inetpub\wwwroot\ContosoWebApp"
