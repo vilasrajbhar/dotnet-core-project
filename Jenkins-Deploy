@@ -6,6 +6,7 @@ pipeline {
                 echo 'Downloading Artifacts from Build Pipeline'
                 copyArtifacts(projectName: 'dotnet-build-pipeline', selector: specific('**/*.zip'))
                 echo 'Artifacts Downloaded'
+                sh 'ls -l'
             }
         }
         stage('Deploy with Ansible') {
