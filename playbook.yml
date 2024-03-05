@@ -6,7 +6,8 @@
         Write-Host "Removing ContosoWebApp & artifacts folders"
         if (Test-Path "C:\inetpub\wwwroot\ContosoWebApp") { Remove-Item -Path "C:\inetpub\wwwroot\ContosoWebApp" -Recurse -Force }
         if (Test-Path "C:\inetpub\wwwroot\ContosoWebApp") { Remove-Item -Path "C:\inetpub\wwwroot\artifacts" -Recurse -Force }
-        Write-Host "Removed ContosoWebApp & artifacts folders"
+        if (Test-Path "C:\temp\ContosoWebApp.zip") { Remove-Item -Path "C:\temp\ContosoWebApp.zip" -Force }
+        Write-Host "Removed ContosoWebApp, artifacts folders and zips file"
         Write-Host "Removing WebApplication"
         Remove-WebApplication -Name "ContosoWebApp" -Site "Default Web Site"
         Write-Host "Removed WebApplication successfully."
