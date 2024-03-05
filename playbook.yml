@@ -1,20 +1,18 @@
 ---
 - hosts: windows
   tasks:
-    - name: Remove existing ContosoWebApp folder
-      win_shell: Remove-Item -Path "C:\\inetpub\\wwwroot\\ContosoWebApp" -Recurse -Force
-      ignore_errors: yes
-    
-    - name: Remove application ContosoWebApp from Default Web Site
-      win_shell: Remove-WebApplication -Name "ContosoWebApp" -Site "Default Web Site"
-      ignore_errors: yes
-
-    - name: Remove existing artifacts folder
-      win_shell: Remove-Item -Path "C:\\inetpub\\wwwroot\\artifacts" -Recurse -Force
+    - name: Remove existing ContosoWebApp folder and application
+      win_shell: |
+        Remove-Item -Path "C:\\inetpub\\wwwroot\\ContosoWebApp" -Recurse -Force
+        Remove-WebApplication -Name "ContosoWebApp" -Site "Default Web Site"
+        Remove-Item -Path "C:\\inetpub\\wwwroot\\artifacts" -Recurse -Force
+        ls "C:\\inetpub\\wwwroot"
       ignore_errors: yes
 
     - name: Extract ContosoWebApp.zip
-      win_shell: Expand-Archive -Path C:\\jenkins\\workspace\\ContosoWebApp.zip -DestinationPath C:\\inetpub\\wwwroot
+      win_shell: |
+        Expand-Archive -Path C:\\jenkins\\workspace\\ContosoWebApp.zip -DestinationPath C:\\inetpub\\wwwroot
+        ls "C:\\inetpub\\wwwroot"
 
     - name: Convert ContosoWebApp folder to IIS WebApplication
       win_shell: ConvertTo-WebApplication -PSPath 'IIS:\\Sites\\Default Web Site\\ContosoWebApp'
