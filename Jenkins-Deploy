@@ -4,8 +4,7 @@ pipeline {
         stage('Download Artifacts') {
             steps {
                 echo 'Downloading Artifacts from Build Pipeline'
-                build job: 'dotnet-build-pipeline', propagate: false, wait: true
-                sh 'll'
+                copyArtifacts(projectName: 'dotnet-build-pipeline', selector: specific('**/*.zip'))
                 echo 'Artifacts Downloaded'
             }
         }
