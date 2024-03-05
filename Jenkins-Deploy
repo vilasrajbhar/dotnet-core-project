@@ -4,7 +4,8 @@ pipeline {
         stage('Download Artifacts') {
             steps {
                 echo 'Downloading Artifacts from Build Pipeline'
-                copyArtifacts(projectName: 'dotnet-build-pipeline', selector: specific('**/*.zip'))
+                //copyArtifacts(projectName: 'dotnet-build-pipeline', selector: specific('**/*.zip'))
+                copyArtifacts(projectName: 'dotnet-build-pipeline', filter:'ContosoWebApp.zip', optional: true);
                 echo 'Artifacts Downloaded'
                 sh 'ls -l'
             }
