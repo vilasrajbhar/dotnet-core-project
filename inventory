@@ -1,15 +1,15 @@
 [windows]
 win_host ansible_host=11.2.0.5
 
-#[windows:vars]
-#ansible_user=jenkin-user
-#ansible_password=Jen@kiN321
-#ansible_connection=ssh
-#ansible_shell_type=cmd
-
 [windows:vars]
 ansible_user=jenkin-user
 ansible_password=Jen@kiN321
-ansible_connection=winrm
-ansible_winrm_transport=basic
-ansible_winrm_server_cert_validation=ignore
+ansible_connection=ssh
+ansible_shell_type=cmd
+
+#[windows:vars]
+#ansible_user=jenkin-user
+#ansible_password=Jen@kiN321
+#ansible_connection=winrm
+#ansible_winrm_transport=basic
+#ansible_winrm_server_cert_validation=ignore
