@@ -34,7 +34,7 @@ pipeline {
                 echo 'Dotnet Test Completed.'
             }
         }
-        stage('Publish') {
+        stage('Dotnet Publish') {
             steps {  
                 echo 'Dotnet Publish Starts!'
               	bat 'dotnet publish -c Release --output artifacts AspNetCoreWebApplication.sln' 
@@ -46,6 +46,12 @@ pipeline {
                 echo 'Zipping Artifacts Starts!'
                 bat 'powershell Compress-Archive -Path .\\artifacts -DestinationPath .\\ContosoWebApp.zip' 
                 echo 'Zipping Artifacts Completed.'
+            }
+        }
+        stage('Publish Build Artifacts') {
+            steps {
+                echo 'Archiving Artifacts'
+                archiveArtifacts artifacts: 'ContosoWebApp.zip', onlyIfSuccessful: true
             }
         }
     }
