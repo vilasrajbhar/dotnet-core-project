@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    stages {
+        stage('Download Artifacts') {
+            steps {
+                echo 'Downloading Artifacts from Build Pipeline'
+                build job: 'dotnet-pipeline', propagate: false, wait: true
+                sh 'll'
+                echo 'Artifacts Downloaded'
+            }
+        }
+        stage('Deploy with Ansible') {
+            steps {
+                echo 'Deploying with Ansible'
+                sh 'ansible-playbook playbook.yml'
+            }
+        }
+    }
+}
