@@ -12,7 +12,10 @@
     - name: Extract ContosoWebApp.zip
       win_shell: |
         Expand-Archive -Path C:\\jenkins\\workspace\\ContosoWebApp.zip -DestinationPath C:\\inetpub\\wwwroot
+        Rename-Item -Path "C:\\inetpub\\wwwroot\\artifacts" -NewName "ContosoWebApp"
         ls "C:\\inetpub\\wwwroot"
+        ls "C:\\inetpub\\wwwroot\\ContosoWebApp"
+      ignore_errors: yes
 
     - name: Convert ContosoWebApp folder to IIS WebApplication
       win_shell: ConvertTo-WebApplication -PSPath 'IIS:\\Sites\\Default Web Site\\ContosoWebApp'
