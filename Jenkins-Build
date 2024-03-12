@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'windows-agent'
+        label 'windows-slave'
     }    
     stages {
         stage('Clean') {
